@@ -7,6 +7,7 @@ use PDOException;
 use Repositories\Repository;
 
 use Models\Project;
+use Models\ProjectStatus;
 
 class ProjectRepository extends Repository
 {
@@ -56,13 +57,17 @@ class ProjectRepository extends Repository
 
 
     function rowToProject($row) {
+        if (!$row) {
+            return null;
+        }
+
         $project = new Project();
         $project->id = $row['id'];
         $project->userid = $row['userid'];
         $project->name = $row['name'];
         $project->description = $row['description'];
-        $project->status = ProjectStatus::$row['status']();
-        $project->creation_date = new \DateTime($row['creation_date']);
+        $project->status = ProjectStatus::getFromString($row['status']);
+        $project->creation_date = isset($row['creation_date']) ? new \DateTime($row['creation_date']) : null;
         $project->due_date = isset($row['due_date']) ? new \DateTime($row['due_date']) : null;
     
         return $project;
@@ -73,7 +78,7 @@ class ProjectRepository extends Repository
         try {
             $stmt = $this->connection->prepare("INSERT INTO projects (userid, name, description, due_date) VALUES (?, ?, ?, ?)");
 
-            $stmt->execute([$project->userid, $project->name, $project->description, $project->due_date]);
+            $stmt->execute([$project->userid, $project->name, $project->description, $project->due_date ? $project->due_date->format('Y-m-d H:i:s') : null]);
 
             $project->id = $this->connection->lastInsertId();
 

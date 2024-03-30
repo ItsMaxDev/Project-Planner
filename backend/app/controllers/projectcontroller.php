@@ -3,6 +3,7 @@ namespace Controllers;
 
 use Exception;
 use Services\ProjectService;
+use Models\Project;
 
 class ProjectController extends Controller
 {
@@ -47,7 +48,7 @@ class ProjectController extends Controller
     public function create()
     {
         try {
-            $project = $this->createObjectFromPostedJson("Models\\Project");
+            $project = $this->createProjectFromPostedJson();
             $project = $this->service->insert($project);
 
         } catch (Exception $e) {
@@ -61,7 +62,7 @@ class ProjectController extends Controller
     public function update($id)
     {
         try {
-            $project = $this->createObjectFromPostedJson("Models\\Project");
+            $project = $this->createProjectFromPostedJson();
             $project = $this->service->update($project, $id);
 
         } catch (Exception $e) {
@@ -82,5 +83,21 @@ class ProjectController extends Controller
         }
 
         $this->respond(true);
+    }
+
+    public function createProjectFromPostedJson()
+    {
+        $data = $this->getPostedJson();
+
+        $project = new Project();
+        $project->id = $data->id ?? null;
+        $project->userid = $data->userid ?? null;
+        $project->name = $data->name ?? null;
+        $project->description = $data->description ?? null;
+        $project->status = $data->status ?? null;
+        $project->creation_date = isset($data->creation_date) ? new \DateTime($data->creation_date) : null;
+        $project->due_date = isset($data->due_date) ? new \DateTime($data->due_date) : null;
+
+        return $project;
     }
 }

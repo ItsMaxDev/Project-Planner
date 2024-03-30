@@ -19,7 +19,7 @@ class Controller
         $this->respondWithCode($httpcode, $data);
     }
 
-    private function respondWithCode($httpcode, $data)
+    function respondWithCode($httpcode, $data)
     {
         header('Content-Type: application/json; charset=utf-8');
         http_response_code($httpcode);
@@ -31,6 +31,10 @@ class Controller
         $json = file_get_contents('php://input');
         $data = json_decode($json);
 
+        if (empty($data)) {
+            throw new Exception("Invalid JSON data.");
+        }
+
         $object = new $className();
         foreach ($data as $key => $value) {
             if(is_object($value)) {
@@ -39,5 +43,11 @@ class Controller
             $object->{$key} = $value;
         }
         return $object;
+    }
+
+    function getPostedJson()
+    {
+        $json = file_get_contents('php://input');
+        return json_decode($json);
     }
 }
