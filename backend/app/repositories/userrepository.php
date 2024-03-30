@@ -52,6 +52,22 @@ class UserRepository extends Repository
         }
     }
 
+    public function isUserAdmin($userId)
+    {
+        try {
+            $stmt = $this->connection->prepare("SELECT is_admin FROM users WHERE id = :id");
+            $stmt->bindParam(':id', $userId);
+            $stmt->execute();
+
+            $stmt->setFetchMode(PDO::FETCH_ASSOC);
+            $row = $stmt->fetch();
+
+            return $row['is_admin'] == 1;
+        } catch (PDOException $e) {
+            echo $e;
+        }
+    }
+
     public function insert($user)
     {
         try {

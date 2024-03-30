@@ -3,8 +3,6 @@ namespace Controllers;
 
 use Exception;
 use Services\UserService;
-use \Firebase\JWT\JWT;
-use \Firebase\JWT\Key;
 
 class UserController extends Controller
 {
@@ -34,7 +32,7 @@ class UserController extends Controller
             }
 
             // Generate JWT token
-            $token = $this->generateToken($user);
+            $token = $this->service->generateToken($user);
 
             // Send token back to the client
             $this->respond(['token' => $token]);
@@ -66,43 +64,12 @@ class UserController extends Controller
             }
 
             // Generate JWT token
-            $token = $this->generateToken($user);
+            $token = $this->service->generateToken($user);
 
             // Send token back to the client
             $this->respond(['token' => $token]);
         } catch (Exception $e) {
             $this->respondWithError(400, $e->getMessage());
-        }
-    }
-
-    public function generateToken($user)
-    {
-        $key = 'verysecretkey';
-        $payload = [
-            'iat' => time(),
-            'data' => [
-                'id' => $user->id,
-                'username' => $user->username,
-                'email' => $user->email,
-                'is_admin' => $user->is_admin
-            ]
-        ];
-
-        return JWT::encode($payload, $key, 'HS256'); // Encode payload using HS256 algorithm
-    }
-
-    public function verifyToken($token)
-    {
-        if (strpos($token, 'Bearer ') === 0) {
-            $token = substr($token, 7);
-        }
-
-        try {
-            $decoded = JWT::decode($token, new Key('verysecretkey', 'HS256'));
-            return $decoded;
-        } catch (Exception $e) {
-            // Token verification failed
-            return false;
         }
     }
 }
