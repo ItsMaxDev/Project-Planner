@@ -21,11 +21,8 @@ $router->put('/projects/(\d+)', 'ProjectController@update');
 $router->delete('/projects/(\d+)', 'ProjectController@delete');
 
 // routes for the user endpoint
-$router->get('/users', 'UserController@getAll');
-$router->get('/users/(\d+)', 'UserController@getOne');
-$router->post('/users', 'UserController@create');
-$router->put('/users/(\d+)', 'UserController@update');
-$router->delete('/users/(\d+)', 'UserController@delete');
+$router->get('/users/(\d+)', 'UserController@login');
+$router->post('/users', 'UserController@register');
 
 // Run it!
 $router->run();

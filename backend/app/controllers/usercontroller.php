@@ -19,16 +19,15 @@ class UserController extends Controller
     public function login()
     {
         try {
-            $username = $_POST['username'];
-            $password = $_POST['password'];
+            $data = $this->getPostedJson();
 
             // Check if username and password are provided
-            if (empty($username) || empty($password)) {
+            if (empty($data->username) || empty($data->password)) {
                 throw new Exception("Username and password are required.");
             }
 
             // Check username and password against database
-            $user = $this->service->checkUsernamePassword($username, $password);
+            $user = $this->service->checkUsernamePassword($data->username, $data->password);
 
             if (!$user) {
                 throw new Exception("Invalid username or password.");
@@ -47,22 +46,20 @@ class UserController extends Controller
     public function register()
     {
         try {
-            $username = $_POST['username'];
-            $email = $_POST['email'];
-            $password = $_POST['password'];
+            $data = $this->getPostedJson();
 
             // Check if username, email, and password are provided
-            if (empty($username) || empty($email) || empty($password)) {
+            if (empty($data->username) || empty($data->email) || empty($data->password)) {
                 throw new Exception("Username, email, and password are required.");
             }
 
             // Check if username or email already exists
-            if (!$this->service->isUsernameEmailAvailable($username, $email)) {
+            if (!$this->service->isUsernameEmailAvailable($data->username, $data->email)) {
                 throw new Exception("Username or email already exists.");
             }
 
             // Create user
-            $user = $this->service->createUser($username, $email, $password);
+            $user = $this->service->createUser($data->username, $data->email, $data->password);
 
             if (!$user) {
                 throw new Exception("Failed to create user.");
@@ -84,10 +81,10 @@ class UserController extends Controller
         $payload = [
             'iat' => time(),
             'data' => [
-                'id' => $user['id'],
-                'username' => $user['username'],
-                'email' => $user['email'],
-                'is_admin' => $user['is_admin']
+                'id' => $user->id,
+                'username' => $user->username,
+                'email' => $user->email,
+                'is_admin' => $user->is_admin
             ]
         ];
 
