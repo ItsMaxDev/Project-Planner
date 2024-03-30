@@ -3,8 +3,6 @@
 namespace Controllers;
 
 use Exception;
-use \Firebase\JWT\JWT;
-use \Firebase\JWT\Key;
 
 class Controller
 {
@@ -49,5 +47,11 @@ class Controller
     {
         $json = file_get_contents('php://input');
         return json_decode($json);
+    }
+
+    function getBearerToken()
+    {
+        $headers = apache_request_headers();
+        return $headers['Authorization'] ?? null;
     }
 }
