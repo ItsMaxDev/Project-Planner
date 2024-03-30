@@ -14,7 +14,8 @@ $router = new \Bramus\Router\Router();
 $router->setNamespace('Controllers');
 
 // routes for the project endpoint
-$router->get('/projects', 'ProjectController@getAll');
+$router->get('/projects', 'ProjectController@getOwn');
+$router->get('/projects/all', 'ProjectController@getAll');
 $router->get('/projects/(\d+)', 'ProjectController@getOne');
 $router->post('/projects', 'ProjectController@create');
 $router->put('/projects/(\d+)', 'ProjectController@update');
