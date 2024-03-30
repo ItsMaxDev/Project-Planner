@@ -36,6 +36,31 @@ class ProjectRepository extends Repository
         }
     }
 
+    function getAllByUser($userid, $offset = NULL, $limit = NULL)
+    {
+        try {
+            $query = "SELECT * FROM projects WHERE userid = :userid";
+            if (isset($limit) && isset($offset)) {
+                $query .= " LIMIT :limit OFFSET :offset";
+            }
+            $stmt = $this->connection->prepare($query);
+            $stmt->bindParam(':userid', $userid);
+            if (isset($limit) && isset($offset)) {
+                $stmt->bindParam(':limit', $limit, PDO::PARAM_INT);
+                $stmt->bindParam(':offset', $offset, PDO::PARAM_INT);
+            }
+            $stmt->execute();
+
+            $projects = array();
+            while (($row = $stmt->fetch(PDO::FETCH_ASSOC)) !== false) {
+                $projects[] = $this->rowToProject($row);
+            }
+
+            return $projects;
+        } catch (PDOException $e) {
+            echo $e;
+        }
+    }
 
     function getOne($id)
     {
@@ -54,7 +79,6 @@ class ProjectRepository extends Repository
             echo $e;
         }
     }
-
 
     function rowToProject($row) {
         if (!$row) {
@@ -87,9 +111,6 @@ class ProjectRepository extends Repository
             echo $e;
         }
     }
-
-
-
     
     function update($project, $id)
     {

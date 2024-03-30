@@ -17,6 +17,11 @@ class ProjectService
         return $this->repository->getAll($offset, $limit);
     }
 
+    public function getAllFromUser($userid, $offset = NULL, $limit = NULL)
+    {
+        return $this->repository->getAllByUser($userid, $offset, $limit);
+    }
+
     public function getOne($id)
     {
         return $this->repository->getOne($id);
