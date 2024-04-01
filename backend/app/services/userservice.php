@@ -43,9 +43,10 @@ class UserService {
 
     public function generateToken($user)
     {
-        $key = 'verysecretkey';
+        $key = 'superverysecretkey';
         $payload = [
             'iat' => time(),
+            'exp' => time() + 3600,
             'data' => [
                 'id' => $user->id,
                 'username' => $user->username,
@@ -62,7 +63,7 @@ class UserService {
         $token = str_replace('Bearer ', '', $token);
 
         try {
-            $decoded = JWT::decode($token, new Key('verysecretkey', 'HS256'));
+            $decoded = JWT::decode($token, new Key('superverysecretkey', 'HS256'));
             return $decoded;
         } catch (Exception $e) {
             // Token verification failed
