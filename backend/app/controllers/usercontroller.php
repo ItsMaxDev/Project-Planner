@@ -35,7 +35,7 @@ class UserController extends Controller
             $token = $this->service->generateToken($user);
 
             // Send token back to the client
-            $this->respond(['token' => $token]);
+            $this->respond(['token' => $token, 'user' => ['id' => $user->id, 'username' => $user->username, 'email' => $user->email, 'isAdmin' => $user->is_admin]]);
         } catch (Exception $e) {
             $this->respondWithError(400, $e->getMessage());
         }
@@ -67,7 +67,27 @@ class UserController extends Controller
             $token = $this->service->generateToken($user);
 
             // Send token back to the client
-            $this->respond(['token' => $token]);
+            $this->respond(['token' => $token, 'user' => ['id' => $user->id, 'username' => $user->username, 'email' => $user->email, 'isAdmin' => $user->is_admin]]);
+        } catch (Exception $e) {
+            $this->respondWithError(400, $e->getMessage());
+        }
+    }
+
+    public function verifyTokenValidity()
+    {
+        try {
+            $token = $this->getBearerToken();
+            if (!$token) {
+                $this->respondWithError(400, "Token is required.");
+                return;
+            }
+
+            $decoded = $this->service->verifyToken($token);
+            if (!$decoded) {
+                $this->respond(["valid" => false]);
+                return;
+            } 
+            $this->respond(["valid" => true]);
         } catch (Exception $e) {
             $this->respondWithError(400, $e->getMessage());
         }
