@@ -14,16 +14,17 @@ $router = new \Bramus\Router\Router();
 $router->setNamespace('Controllers');
 
 // routes for the project endpoint
-$router->get('/projects', 'ProjectController@getOwn');
-$router->get('/projects/all', 'ProjectController@getAll');
-$router->get('/projects/(\d+)', 'ProjectController@getOne');
-$router->post('/projects', 'ProjectController@create');
-$router->put('/projects/(\d+)', 'ProjectController@update');
-$router->delete('/projects/(\d+)', 'ProjectController@delete');
+$router->get('/api/projects', 'ProjectController@getOwn');
+$router->get('/api/projects/all', 'ProjectController@getAll');
+$router->get('/api/projects/(\d+)', 'ProjectController@getOne');
+$router->post('/api/projects', 'ProjectController@create');
+$router->put('/api/projects/(\d+)', 'ProjectController@update');
+$router->delete('/api/projects/(\d+)', 'ProjectController@delete');
 
 // routes for the user endpoint
-$router->get('/users/(\d+)', 'UserController@login');
-$router->post('/users', 'UserController@register');
+$router->post('/api/login', 'UserController@login');
+$router->post('/api/register', 'UserController@register');
+$router->get('/api/verifytoken', 'UserController@verifyTokenValidity');
 
 // Run it!
 $router->run();
