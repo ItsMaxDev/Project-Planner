@@ -87,7 +87,7 @@ class UserController extends Controller
                 $this->respond(["valid" => false]);
                 return;
             }
-            $this->respond(["valid" => true, "user" => $decoded->data]);
+            $this->respond(["valid" => true, "user" => ['id' => $decoded->data->id, 'username' => $decoded->data->username, 'email' => $decoded->data->email, 'isAdmin' => $decoded->data->is_admin]]);
         } catch (Exception $e) {
             $this->respondWithError(400, $e->getMessage());
         }
