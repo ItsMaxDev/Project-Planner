@@ -2,6 +2,7 @@
 namespace Controllers;
 
 use Exception;
+use Models\ProjectStatus;
 use Services\UserService;
 use Services\ProjectService;
 use Models\Project;
@@ -215,9 +216,9 @@ class ProjectController extends Controller
         $project->userid = $data->userid ?? null;
         $project->name = $data->name ?? null;
         $project->description = $data->description ?? null;
-        $project->status = $data->status ?? null;
-        $project->creation_date = isset($data->creation_date) ? new \DateTime($data->creation_date) : null;
-        $project->due_date = isset($data->due_date) ? new \DateTime($data->due_date) : null;
+        $project->status = !empty($data->status) ? ProjectStatus::getFromString($data->status) : null;
+        $project->creation_date = !empty($data->creation_date) ? new \DateTime($data->creation_date->date ?? $data->creation_date) : null;
+        $project->due_date = !empty($data->due_date) ? new \DateTime($data->due_date->date ?? $data->due_date) : null;
 
         return $project;
     }
