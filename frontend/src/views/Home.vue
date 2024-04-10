@@ -1,7 +1,7 @@
 <script setup>
 import Project from '../components/Project.vue'
 import ConfirmModal from '../components/ConfirmModal.vue'
-import { computed, onMounted, ref, watch } from 'vue';
+import { computed, onMounted, ref } from 'vue';
 import router from '@/router';
 
 // Composables
@@ -22,15 +22,15 @@ const filteredProjects = computed(() => {
   switch (selectedFilter.value) {
     case 'all':
       return projects.value
-        .filter(project => project.status === 'notStarted')
-        .concat(projects.value.filter(project => project.status === 'inProgress'))
-        .concat(projects.value.filter(project => project.status === 'finished'));
-    case 'notStarted':
-      return projects.value.filter(p => p.status === 'notStarted');
-    case 'inProgress':
-      return projects.value.filter(p => p.status === 'inProgress');
-    case 'finished':
-      return projects.value.filter(p => p.status === 'finished');
+        .filter(project => project.status === 'NOT_STARTED')
+        .concat(projects.value.filter(project => project.status === 'IN_PROGRESS'))
+        .concat(projects.value.filter(project => project.status === 'FINISHED'));
+    case 'NOT_STARTED':
+      return projects.value.filter(p => p.status === 'NOT_STARTED');
+    case 'IN_PROGRESS':
+      return projects.value.filter(p => p.status === 'IN_PROGRESS');
+    case 'FINISHED':
+      return projects.value.filter(p => p.status === 'FINISHED');
   }
 });
 
@@ -40,14 +40,14 @@ onMounted(async () => {
 
 async function updateStatus(project) {
   switch (project.status) {
-    case 'notStarted':
-      project.status = "inProgress"
+    case 'NOT_STARTED':
+      project.status = "IN_PROGRESS"
       break
-    case 'inProgress':
-      project.status = "finished"
+    case 'IN_PROGRESS':
+      project.status = "FINISHED"
       break
-    case 'finished':
-      project.status = "notStarted"
+    case 'FINISHED':
+      project.status = "NOT_STARTED"
       break
   }
 
@@ -64,13 +64,18 @@ function removeProject(project) {
 }
 
 async function confirmRemoveProject() {
-  await remove(selectedProject.value)
-  projects.value = projects.value.filter(p => p.id !== selectedProject.value.id)
   closeRemoveProjectModal()
+  
+  await remove(selectedProject.value)
+
+  if (!error.value) {
+    projects.value = projects.value.filter(p => p.id !== selectedProject.value.id)
+  }
+
+  selectedProject.value = null
 }
 
 function closeRemoveProjectModal() {
-  selectedProject.value = null
   showRemoveModal.value = false
 }
 
@@ -92,19 +97,19 @@ function closeRemoveProjectModal() {
       <div class="form-control">
         <label class="label cursor-pointer flex-row-reverse ps-0">
           <span class="label-text ms-1.5">Not Started</span> 
-          <input type="radio" name="radio-10" class="radio checked:bg-gray-500" v-model="selectedFilter" value="notStarted" />
+          <input type="radio" name="radio-10" class="radio checked:bg-gray-500" v-model="selectedFilter" value="NOT_STARTED" />
         </label>
       </div>
       <div class="form-control">
         <label class="label cursor-pointer flex-row-reverse ps-0">
           <span class="label-text ms-1.5">In Progress</span> 
-          <input type="radio" name="radio-10" class="radio checked:bg-orange-500" v-model="selectedFilter" value="inProgress"/>
+          <input type="radio" name="radio-10" class="radio checked:bg-orange-500" v-model="selectedFilter" value="IN_PROGRESS"/>
         </label>
       </div>
       <div class="form-control">
         <label class="label cursor-pointer flex-row-reverse ps-0">
           <span class="label-text ms-1.5">Finished</span> 
-          <input type="radio" name="radio-10" class="radio checked:bg-green-500" v-model="selectedFilter" value="finished" />
+          <input type="radio" name="radio-10" class="radio checked:bg-green-500" v-model="selectedFilter" value="FINISHED" />
         </label>
       </div>
     </div>
@@ -116,7 +121,7 @@ function closeRemoveProjectModal() {
     </div>
     <div v-if="filteredProjects.length" class="w-1/2 overflow-y-auto space-y-2" style="max-height: 650px;">
       <div v-for="project in filteredProjects" :key="project.id">
-        <Project :project="project" @delete="removeProject" @edit="editProject" @updateStatus="updateStatus" class="mb-1.5 mt-1.5"/>
+        <Project :project="project" @delete="removeProject(project)" @edit="editProject(project)" @updateStatus="updateStatus(project)" class="mb-1.5 mt-1.5"/>
       </div>
     </div>
     <div v-if="!filteredProjects.length && !error" class="w-1/2 mt-5">

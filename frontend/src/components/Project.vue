@@ -5,11 +5,11 @@ const showDescription = ref(false);
 
 const icon = computed(() => {
     switch (props.project.status) {
-    case 'notStarted':
+    case 'NOT_STARTED':
       return 'not_started';
-    case 'inProgress':
+    case 'IN_PROGRESS':
       return 'pending'
-    case 'finished':
+    case 'FINISHED':
       return 'check_circle'
   }
 })
@@ -19,7 +19,13 @@ const props = defineProps({
         type: Object,
         required: true,
         validator: function (object) {
-            return 'id' in object && 'name' in object && 'description' in object && 'status' in object;
+            return 'id' in object && 
+                   'userid' in object && 
+                   'name' in object && 
+                   'description' in object && 
+                   'status' in object && 
+                   'creation_date' in object && 
+                   'due_date' in object;
         }
     }
 })
@@ -34,15 +40,15 @@ function toggleDescription() {
 
 <template>
     <div v-if="project">
-        <div class="p-10 bg-base-300 rounded-lg text-bl shadow-lg border-l-8" :class="{ 'border-gray-500': project.status === 'notStarted', 'border-orange-500': project.status === 'inProgress', 'border-green-500': project.status === 'finished' }">
+        <div class="p-10 bg-base-300 rounded-lg text-bl shadow-lg border-l-8" :class="{ 'border-gray-500': project.status === 'NOT_STARTED', 'border-orange-500': project.status === 'IN_PROGRESS', 'border-green-500': project.status === 'FINISHED' }">
             <div class="flex justify-between items-center">
                 <span @click="toggleDescription" v-if="!showDescription" class="material-icons">chevron_right</span>
                 <span @click="toggleDescription" v-if="showDescription" class="material-icons">expand_more</span>
                 <h2>{{ project.name }}</h2>
                 <div class="flex items-center space-x-1">
-                    <span @click="$emit('delete', project)" class="material-icons hover:text-red-500">delete</span>
-                    <span @click="$emit('edit', project)" class="material-icons hover:text-orange-500">edit</span>
-                    <span @click="$emit('updateStatus', project)" class="material-icons" :class="{ 'text-gray-500': project.status === 'notStarted', 'text-orange-500': project.status === 'inProgress', 'text-green-500': project.status === 'finished' }">{{ icon }}</span>
+                    <span @click="$emit('delete')" class="material-icons hover:text-red-500">delete</span>
+                    <span @click="$emit('edit')" class="material-icons hover:text-orange-500">edit</span>
+                    <span @click="$emit('updateStatus')" class="material-icons" :class="{ 'text-gray-500': project.status === 'NOT_STARTED', 'text-orange-500': project.status === 'IN_PROGRESS', 'text-green-500': project.status === 'FINISHED' }">{{ icon }}</span>
                 </div>
             </div>
             <div v-if="showDescription" class="mt-5">
