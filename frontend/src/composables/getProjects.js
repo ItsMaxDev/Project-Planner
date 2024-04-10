@@ -1,4 +1,7 @@
+import { useAccountStore } from '@/stores/AccountStore';
 import { ref } from 'vue';
+
+const accountStore = useAccountStore();
 
 const getProjects = (error) => {
     const projects = ref([]);
@@ -7,13 +10,18 @@ const getProjects = (error) => {
         try {
             error.value = null
             
-            let response = await fetch('http://localhost:3000/projects')
-                
-            if(!response.ok) {
-                throw Error('Could not fetch data.')
+            let response = await fetch('http://localhost/api/projects', {
+                headers: {
+                    authorization: 'Bearer ' + accountStore.token
+                }
+            })
+           
+            let data = await response.json();
+            if(!response.ok || data.errorMessage) {
+                throw Error(data.errorMessage);
             }
 
-            projects.value = await response.json()
+            projects.value = data;
         } 
         catch (err) {
             error.value = err.message

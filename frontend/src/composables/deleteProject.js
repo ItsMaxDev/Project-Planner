@@ -1,14 +1,22 @@
+import { useAccountStore } from "@/stores/AccountStore"
+
+const accountStore = useAccountStore();
+
 const deleteProject = (error) => {
     const remove = async (project) => {
         try {
             error.value = null
-            
-            let response = await fetch('http://localhost:3000/projects/' + project.id, {
-                method: "DELETE"
+
+            let response = await fetch('http://localhost/api/projects/' + project.id, {
+                method: "DELETE",
+                headers: {
+                    authorization: 'Bearer ' + accountStore.token
+                }
             })
                 
-            if(!response.ok) {
-                throw Error('Could not delete project.')
+            let data = await response.json();
+            if(!response.ok || data.errorMessage) {
+                throw Error(data.errorMessage);
             }
         } 
         catch (err) {

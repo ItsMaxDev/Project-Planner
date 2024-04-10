@@ -1,18 +1,29 @@
+import { useAccountStore } from '@/stores/AccountStore';
+
+const accountStore = useAccountStore();
+
 const addProject = (error) => {
     const add = async (project) => {
         try {
             error.value = null
 
-            let response = await fetch('http://localhost:3000/projects', {
+            let response = await fetch('http://localhost/api/projects', {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
+                    authorization: 'Bearer ' + accountStore.token
                 },
-                body: JSON.stringify(project)
+                body: JSON.stringify({
+                    userid: accountStore.user.id,
+                    name: project.name,
+                    description: project.description,
+                    due_date: project.due_date
+                })
             })
-                
-            if(!response.ok) {
-                throw Error('Could not add project.')
+
+            let data = await response.json();
+            if(!response.ok || data.errorMessage) {
+                throw Error(data.errorMessage);
             }
         } 
         catch (err) {
