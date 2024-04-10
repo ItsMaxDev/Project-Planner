@@ -117,7 +117,7 @@ class ProjectRepository extends Repository
         try {
             $stmt = $this->connection->prepare("UPDATE projects SET userid = ?, name = ?, description = ?, status = ?, creation_date = ?, due_date = ? WHERE id = ?");
 
-            $stmt->execute([$project->userid, $project->name, $project->description, $project->status, $project->creation_date->format('Y-m-d H:i:s'), $project->due_date ? $project->due_date->format('Y-m-d H:i:s') : null, $id]);
+            $stmt->execute([$project->userid, $project->name, $project->description, $project->status->toString(), $project->creation_date->format('Y-m-d H:i:s'), $project->due_date ? $project->due_date->format('Y-m-d H:i:s') : null, $id]);
 
             return $this->getOne($id);
         } catch (PDOException $e) {
