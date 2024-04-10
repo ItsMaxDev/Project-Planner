@@ -1,5 +1,5 @@
 <script setup>
-import { onMounted, ref } from 'vue';
+import { onMounted, ref, watch } from 'vue';
 import getProject from '../../composables/getProject'
 import updateProject from '../../composables/updateProject'
 import router from '@/router';
@@ -12,6 +12,11 @@ const props = defineProps(['id'])
 
 onMounted(async () => {
     await get(props.id)
+
+    watch([() => project.value.due_date, () => project.value.description], ([dueDateValue, descriptionValue]) => {
+        project.value.due_date = dueDateValue || null;
+        project.value.description = descriptionValue || null;
+    });
 })
 
 async function editProject() {
@@ -40,7 +45,11 @@ async function editProject() {
                 </div>
                 <div class="mt-4 flex flex-col">
                     <label class="mb-1">Description</label>
-                    <textarea v-model="project.description" rows="5" class="textarea textarea-bordered" required></textarea>
+                    <textarea v-model="project.description" rows="5" class="textarea textarea-bordered"></textarea>
+                </div>
+                <div class="mt-4 flex flex-col">
+                    <label class="mb-1">Due Date</label>
+                    <input v-model="project.due_date" type="datetime-local" class="input input-bordered">
                 </div>
                 <div class="mt-4 flex justify-end">
                     <button class="btn btn-primary">Update</button>

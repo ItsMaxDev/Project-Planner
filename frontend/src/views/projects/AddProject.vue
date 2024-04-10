@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from 'vue';
+import { ref, watch } from 'vue';
 import addProject from '../../composables/addProject'
 import router from '@/router';
 
@@ -7,10 +7,11 @@ const error = ref(null)
 const { add } = addProject(error)
 
 const name = ref('')
-const description = ref('')
+const description = ref(null)
+const due_date = ref(null)
 
 async function createProject() {
-    const project = { name: name.value, description: description.value, status: 'notStarted' }
+    const project = { name: name.value, description: description.value, due_date: due_date.value }
     await add(project)
 
     if(!error.value) {
@@ -18,6 +19,10 @@ async function createProject() {
     }
 }
 
+watch([due_date, description], ([due_dateValue, descriptionValue]) => {
+    due_date.value = due_dateValue || null
+    description.value = descriptionValue || null
+})
 </script>
 
 <template>
@@ -36,7 +41,11 @@ async function createProject() {
                 </div>
                 <div class="mt-4 flex flex-col">
                     <label class="mb-1">Description</label>
-                    <textarea v-model="description" rows="5" class="textarea textarea-bordered" required></textarea>
+                    <textarea v-model="description" rows="5" class="textarea textarea-bordered"></textarea>
+                </div>
+                <div class="mt-4 flex flex-col">
+                    <label class="mb-1">Due Date</label>
+                    <input v-model="due_date" type="datetime-local" class="input input-bordered">
                 </div>
                 <div class="mt-4 flex justify-end">
                     <button class="btn btn-primary">Create</button>
