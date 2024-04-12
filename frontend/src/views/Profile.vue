@@ -12,6 +12,7 @@ const logout = async () => {
     try {
         await accountStore.logout();
     } catch (err) {
+        console.error(err);
         error.value = err.message;
     }
 };

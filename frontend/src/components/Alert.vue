@@ -2,17 +2,17 @@
 import { computed } from 'vue';
 
 const props = defineProps({
-    message: {
-        type: String,
-        required: true
-    },
-    type: {
-        type: String,
-        required: false,
-        validator: (value) => {
-          return ['info', 'success', 'warning', 'error'].includes(value);
-        }
-    }
+  message: {
+      type: String,
+      required: true
+  },
+  type: {
+      type: String,
+      required: false,
+      validator: (value) => {
+        return ['info', 'success', 'warning', 'error'].includes(value);
+      }
+  }
 })
 
 const alertType = computed(() => {

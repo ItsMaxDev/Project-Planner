@@ -5,29 +5,35 @@ import updateProject from '../../composables/updateProject'
 import router from '@/router';
 import Alert from '@/components/Alert.vue';
 
+onMounted(async () => {
+    try {
+        await get(props.id)
+
+        watch([() => project.value.due_date, () => project.value.description], ([dueDateValue, descriptionValue]) => {
+            project.value.due_date = dueDateValue || null;
+            project.value.description = descriptionValue || null;
+        });
+    } catch (err) {
+        console.error(err)
+        error.value = err.message
+    }
+})
+
 const error = ref(null)
-const { update } = updateProject(error)
+const { update } = updateProject()
 const { project, get } = getProject(error)
 
 const props = defineProps(['id'])
 
-onMounted(async () => {
-    await get(props.id)
-
-    watch([() => project.value.due_date, () => project.value.description], ([dueDateValue, descriptionValue]) => {
-        project.value.due_date = dueDateValue || null;
-        project.value.description = descriptionValue || null;
-    });
-})
-
-async function editProject() {
-    await update(project.value)
-
-    if(!error.value) {
+const editProject = async () => {
+    try {
+        await update(project.value)
         router.push({ name: 'home' })
+    } catch (err) {
+        console.error(err)
+        error.value = err.message
     }
 }
-
 </script>
 
 <template>

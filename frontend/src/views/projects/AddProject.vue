@@ -1,29 +1,33 @@
 <script setup>
-import { ref, watch } from 'vue';
+import { onMounted, ref, watch } from 'vue';
 import addProject from '../../composables/addProject'
 import router from '@/router';
 import Alert from '@/components/Alert.vue';
 
+onMounted(() => {
+    watch([due_date, description], ([due_dateValue, descriptionValue]) => {
+        due_date.value = due_dateValue || null
+        description.value = descriptionValue || null
+    })
+})
+
 const error = ref(null)
-const { add } = addProject(error)
+const { add } = addProject()
 
 const name = ref('')
 const description = ref(null)
 const due_date = ref(null)
 
-async function createProject() {
-    const project = { name: name.value, description: description.value, due_date: due_date.value }
-    await add(project)
-
-    if(!error.value) {
+const createProject = async () => {
+    try {
+        const project = { name: name.value, description: description.value, due_date: due_date.value }
+        await add(project)
         router.push({ name: 'home' })
+    } catch (err) {
+        console.error(err)
+        error.value = err.message
     }
 }
-
-watch([due_date, description], ([due_dateValue, descriptionValue]) => {
-    due_date.value = due_dateValue || null
-    description.value = descriptionValue || null
-})
 </script>
 
 <template>

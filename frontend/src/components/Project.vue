@@ -1,19 +1,7 @@
 <script setup>
 import { computed, ref } from 'vue';
 
-const showDescription = ref(false);
-
-const icon = computed(() => {
-    switch (props.project.status) {
-    case 'NOT_STARTED':
-      return 'not_started';
-    case 'IN_PROGRESS':
-      return 'pending'
-    case 'FINISHED':
-      return 'check_circle'
-  }
-})
-
+const emits = defineEmits(['delete', 'edit', 'updateStatus']);
 const props = defineProps({
     project: {
         type: Object,
@@ -30,20 +18,25 @@ const props = defineProps({
     }
 })
 
-const emits = defineEmits(['delete', 'edit', 'updateStatus']);
-
-function toggleDescription() {
-    showDescription.value = !showDescription.value
-}
-
+// Data
+const showDescription = ref(false);
+const icon = computed(() => {
+    switch (props.project.status) {
+    case 'NOT_STARTED':
+      return 'not_started';
+    case 'IN_PROGRESS':
+      return 'pending'
+    case 'FINISHED':
+      return 'check_circle'
+  }
+})
 </script>
 
 <template>
     <div v-if="project">
         <div class="p-10 bg-base-300 rounded-lg text-bl shadow-lg border-l-8" :class="{ 'border-gray-500': project.status === 'NOT_STARTED', 'border-orange-500': project.status === 'IN_PROGRESS', 'border-green-500': project.status === 'FINISHED' }">
             <div class="flex justify-between items-center">
-                <span @click="toggleDescription" v-if="!showDescription" class="material-icons">chevron_right</span>
-                <span @click="toggleDescription" v-if="showDescription" class="material-icons">expand_more</span>
+                <span @click="showDescription = !showDescription" class="material-icons">{{ showDescription ? 'expand_more' : 'chevron_right' }}</span>
                 <h2>{{ project.name }}</h2>
                 <div class="flex items-center space-x-1">
                     <span @click="$emit('delete')" class="material-icons hover:text-red-500">delete</span>
