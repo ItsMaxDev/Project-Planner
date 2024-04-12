@@ -7,6 +7,6 @@ class Project {
     public ?string $name;
     public ?string $description;
     public ?ProjectStatus $status;
-    public ?\DateTime $creation_date;
-    public ?\DateTime $due_date;
+    public ?string $creation_date;
+    public ?string $due_date;
 }

@@ -91,8 +91,8 @@ class ProjectRepository extends Repository
         $project->name = $row['name'];
         $project->description = $row['description'];
         $project->status = ProjectStatus::getFromString($row['status']);
-        $project->creation_date = isset($row['creation_date']) ? new \DateTime($row['creation_date']) : null;
-        $project->due_date = isset($row['due_date']) ? new \DateTime($row['due_date']) : null;
+        $project->creation_date = $row['creation_date'];
+        $project->due_date = $row['due_date'];
     
         return $project;
     }    
@@ -102,7 +102,7 @@ class ProjectRepository extends Repository
         try {
             $stmt = $this->connection->prepare("INSERT INTO projects (userid, name, description, due_date) VALUES (?, ?, ?, ?)");
 
-            $stmt->execute([$project->userid, $project->name, $project->description, $project->due_date ? $project->due_date->format('Y-m-d H:i:s') : null]);
+            $stmt->execute([$project->userid, $project->name, $project->description, $project->due_date]);
 
             $project->id = $this->connection->lastInsertId();
 
@@ -117,7 +117,7 @@ class ProjectRepository extends Repository
         try {
             $stmt = $this->connection->prepare("UPDATE projects SET userid = ?, name = ?, description = ?, status = ?, creation_date = ?, due_date = ? WHERE id = ?");
 
-            $stmt->execute([$project->userid, $project->name, $project->description, $project->status->toString(), $project->creation_date->format('Y-m-d H:i:s'), $project->due_date ? $project->due_date->format('Y-m-d H:i:s') : null, $id]);
+            $stmt->execute([$project->userid, $project->name, $project->description, $project->status->toString(), $project->creation_date, $project->due_date, $id]);
 
             return $this->getOne($id);
         } catch (PDOException $e) {

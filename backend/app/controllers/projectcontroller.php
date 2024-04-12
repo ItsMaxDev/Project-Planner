@@ -217,8 +217,8 @@ class ProjectController extends Controller
         $project->name = $data->name ?? null;
         $project->description = $data->description ?? null;
         $project->status = !empty($data->status) ? ProjectStatus::getFromString($data->status) : null;
-        $project->creation_date = !empty($data->creation_date) ? new \DateTime($data->creation_date->date ?? $data->creation_date) : null;
-        $project->due_date = !empty($data->due_date) ? new \DateTime($data->due_date->date ?? $data->due_date) : null;
+        $project->creation_date = $data->creation_date ?? null;
+        $project->due_date = $data->due_date ?? null;
 
         return $project;
     }
