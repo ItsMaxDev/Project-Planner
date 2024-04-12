@@ -3,30 +3,22 @@ import { ref } from 'vue';
 
 const accountStore = useAccountStore();
 
-const getProject = (error) => {
+const getProject = () => {
     const project = ref(null);
 
     const get = async (id) => {
-        try {
-            error.value = null
-            
-            let response = await fetch('http://localhost/api/projects/' + id, {
-                headers: {
-                    authorization: 'Bearer ' + accountStore.token
-                }
-            })
-            
-            let data = await response.json();
-            if(!response.ok || data.errorMessage) {
-                throw Error(data.errorMessage);
+        let response = await fetch('http://localhost/api/projects/' + id, {
+            headers: {
+                authorization: 'Bearer ' + accountStore.token
             }
-
-            project.value = data;
-        } 
-        catch (err) {
-            error.value = err.message
-            console.error(err)
+        })
+        
+        let data = await response.json();
+        if(!response.ok || data.errorMessage) {
+            throw Error(data.errorMessage);
         }
+
+        project.value = data;
     }
 
     return { project, get }
