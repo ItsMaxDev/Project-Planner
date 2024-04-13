@@ -59,6 +59,10 @@ class UserController extends Controller
             $data->email = strtolower(trim($data->email));
 
             // Validate username
+            if (strlen($data->username) > 16) {
+                throw new Exception("Username must be 16 characters or less.");
+            }
+
             if (!preg_match('/^[a-z0-9_]+$/', $data->username)) {
                 throw new Exception("Invalid username. Only lowercase alphanumeric characters and underscores are allowed.");
             }

@@ -37,7 +37,7 @@ const register = async () => {
                 <h1 class="text-center">Login</h1>
                 <div class="mt-4 flex flex-col">
                     <label class="mb-1">Username</label>
-                    <input v-model="username" type="text" class="input input-bordered" required>
+                    <input v-model="username" type="text" maxlength="16" class="input input-bordered" required>
                 </div>
                 <div class="mt-4 flex flex-col">
                     <label class="mb-1">Password</label>
@@ -56,7 +56,7 @@ const register = async () => {
                 <h1 class="text-center">Sign up</h1>
                 <div class="mt-4 flex flex-col">
                     <label class="mb-1">Username</label>
-                    <input v-model="username" type="text" class="input input-bordered" required>
+                    <input v-model="username" type="text" maxlength="16" class="input input-bordered" required>
                 </div>
                 <div class="mt-4 flex flex-col">
                     <label class="mb-1">Email</label>
