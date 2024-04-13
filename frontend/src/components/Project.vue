@@ -38,6 +38,7 @@ const remainingTime = computed(() => {
     const dueDate = new Date(props.project.due_date);
     const now = new Date();
     const diff = dueDate - now;
+    const months = Math.floor(diff / (1000 * 60 * 60 * 24 * 30));
     const days = Math.floor(diff / (1000 * 60 * 60 * 24));
     const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
     const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
@@ -46,6 +47,10 @@ const remainingTime = computed(() => {
     let message = '';
     let color = '';
     switch (true) {
+        case months > 0:
+            message = `Due in ${months} months and ${days-30*months} days`;
+            color = 'text-green-500';
+            break;
         case days > 0:
             message = `Due in ${days} days`;
             color = 'text-green-500';
@@ -82,11 +87,11 @@ const remainingTime = computed(() => {
                     <h2 class="text-center whitespace-pre-wrap break-all">{{ project.name }}</h2>
                 </div>
                 <div class="flex items-center space-x-1">
+                    <span class="material-icons md:hidden" @click="showDescription = !showDescription">{{ showDescription ? 'expand_more' : 'chevron_right' }}</span>
                     <span @click="$emit('delete')" class="material-icons hover:text-red-500">delete</span>
                     <span @click="$emit('edit')" class="material-icons hover:text-orange-500">edit</span>
                     <span @click="$emit('updateStatus')" class="material-icons" :class="{ 'text-gray-500': project.status === 'NOT_STARTED', 'text-orange-500': project.status === 'IN_PROGRESS', 'text-green-500': project.status === 'FINISHED' }">{{ statusIcon }}</span>
                 </div>
-                <span class="material-icons md:hidden" @click="showDescription = !showDescription">{{ showDescription ? 'expand_more' : 'chevron_right' }}</span>
             </div>
             <div v-if="showDescription" class="mt-5 max-h-[25vh] overflow-y-auto">
                 <p class="whitespace-pre-wrap break-all">{{ project.description }}</p>
