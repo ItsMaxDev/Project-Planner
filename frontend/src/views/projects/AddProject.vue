@@ -39,11 +39,11 @@ const createProject = async () => {
                 <h1 class="text-center">Add Project</h1>
                 <div class="mt-4 flex flex-col">
                     <label class="mb-1">Name</label>
-                    <input v-model="name" type="text" placeholder="My project" class="input input-bordered" required>
+                    <input v-model="name" type="text" placeholder="My project" maxlength="32" class="input input-bordered" required>
                 </div>
                 <div class="mt-4 flex flex-col">
                     <label class="mb-1">Description</label>
-                    <textarea v-model="description" rows="5" class="textarea textarea-bordered"></textarea>
+                    <textarea v-model="description" rows="5" maxlength="65535" class="textarea textarea-bordered"></textarea>
                 </div>
                 <div class="mt-4 flex flex-col">
                     <label class="mb-1">Due Date</label>

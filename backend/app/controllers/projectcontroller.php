@@ -219,11 +219,38 @@ class ProjectController extends Controller
     public function createProjectFromPostedJson($data)
     {
         $project = new Project();
+
+        // UserID validation
+        if (empty($data->userid)) {
+            throw new Exception("UserID is required.");
+        }
         $project->userid = !empty($data->userid) ? htmlspecialchars($data->userid) : null;
+
+        // Name validation
+        if (empty($data->name)) {
+            throw new Exception("Project name is required.");
+        }
+
+        if (!empty($data->name) && strlen($data->name) > 32) {
+            throw new Exception("Project name must be 32 characters or less.");
+        }
         $project->name = !empty($data->name) ? htmlspecialchars($data->name) : null;
+
+
+        // Description validation
+        if (!empty($data->description) && strlen($data->description) > 65535) {
+            throw new Exception("Project description must be 65535 characters or less.");
+        }
         $project->description = !empty($data->description) ? htmlspecialchars($data->description) : null;
+
+        // Other fields with no validation
         $project->status = !empty($data->status) ? ProjectStatus::getFromString(htmlspecialchars($data->status)) : null;
         $project->creation_date = !empty($data->creation_date) ? htmlspecialchars($data->creation_date) : null;
+
+        // Due date validation
+        if (!empty($data->due_date) && !strtotime($data->due_date)) {
+            throw new Exception("Invalid due date.");
+        }
         $project->due_date = !empty($data->due_date) ? htmlspecialchars($data->due_date) : null;
 
         return $project;
