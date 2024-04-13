@@ -210,15 +210,21 @@ class ProjectController extends Controller
         $this->respond(true);
     }
 
+    /**
+     * Creates a new Project object from the provided JSON data.
+     *
+     * @param object $data The JSON data containing the project details.
+     * @return Project The newly created Project object.
+     */
     public function createProjectFromPostedJson($data)
     {
         $project = new Project();
-        $project->userid = $data->userid ?? null;
-        $project->name = $data->name ?? null;
-        $project->description = $data->description ?? null;
-        $project->status = !empty($data->status) ? ProjectStatus::getFromString($data->status) : null;
-        $project->creation_date = $data->creation_date ?? null;
-        $project->due_date = $data->due_date ?? null;
+        $project->userid = !empty($data->userid) ? htmlspecialchars($data->userid) : null;
+        $project->name = !empty($data->name) ? htmlspecialchars($data->name) : null;
+        $project->description = !empty($data->description) ? htmlspecialchars($data->description) : null;
+        $project->status = !empty($data->status) ? ProjectStatus::getFromString(htmlspecialchars($data->status)) : null;
+        $project->creation_date = !empty($data->creation_date) ? htmlspecialchars($data->creation_date) : null;
+        $project->due_date = !empty($data->due_date) ? htmlspecialchars($data->due_date) : null;
 
         return $project;
     }

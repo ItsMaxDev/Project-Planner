@@ -24,25 +24,6 @@ class Controller
         echo json_encode($data);
     }
 
-    function createObjectFromPostedJson($className)
-    {
-        $json = file_get_contents('php://input');
-        $data = json_decode($json);
-
-        if (empty($data)) {
-            throw new Exception("Invalid JSON data.");
-        }
-
-        $object = new $className();
-        foreach ($data as $key => $value) {
-            if(is_object($value)) {
-                continue;
-            }
-            $object->{$key} = $value;
-        }
-        return $object;
-    }
-
     function getPostedJson()
     {
         $json = file_get_contents('php://input');

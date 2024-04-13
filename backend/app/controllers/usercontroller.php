@@ -24,6 +24,9 @@ class UserController extends Controller
                 throw new Exception("Username and password are required.");
             }
 
+            // Conversions
+            $data->username = strtolower(trim($data->username));
+
             // Check username and password against database
             $user = $this->service->checkUsernamePassword($data->username, $data->password);
 
@@ -49,6 +52,32 @@ class UserController extends Controller
             // Check if username, email, and password are provided
             if (empty($data->username) || empty($data->email) || empty($data->password)) {
                 throw new Exception("Username, email, and password are required.");
+            }
+
+            // Conversions
+            $data->username = strtolower(trim($data->username));
+            $data->email = strtolower(trim($data->email));
+
+            // Validate username
+            if (!preg_match('/^[a-z0-9_]+$/', $data->username)) {
+                throw new Exception("Invalid username. Only lowercase alphanumeric characters and underscores are allowed.");
+            }
+
+            // Validate email
+            if (!filter_var($data->email, FILTER_VALIDATE_EMAIL)) {
+                throw new Exception("Invalid email.");
+            }
+
+            // Validate password
+            if (strlen($data->password) < 8 || strlen($data->password) > 64) {
+                throw new Exception("Password must be between 8 and 64 characters long.");
+            }
+
+            if (!preg_match('/[a-z]/', $data->password) || 
+                !preg_match('/[A-Z]/', $data->password) || 
+                !preg_match('/[0-9]/', $data->password) || 
+                !preg_match('/[^a-zA-Z0-9]/', $data->password)) {
+                throw new Exception("Password must contain at least one lowercase letter, one uppercase letter, one digit, and one special character.");
             }
 
             // Check if username or email already exists
