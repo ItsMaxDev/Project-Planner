@@ -6,8 +6,8 @@ const accountStore = useAccountStore();
 
 <template>
     <div v-if="accountStore.isLoggedIn">
-        <div class="flex justify-end">
-            <RouterLink :to="{ name: 'profile' }" class="mt-5 me-5 flex items-center font-bold gap-1.5">
+        <div class="fixed top-5 right-5 flex justify-end">
+            <RouterLink :to="{ name: 'profile' }" class="btn btn-neutral flex items-center font-bold gap-1.5 p-3">
                 <span class="material-symbols-outlined">
                     account_circle
                 </span>

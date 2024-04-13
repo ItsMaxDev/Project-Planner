@@ -41,14 +41,21 @@ const removeProject = (project) => {
 </script>
 
 <template>
-  <div class="flex flex-col items-center mt-20">
-    <div class="w-1/2 flex justify-between">
-      <h1 class="font-bold">Simple Project Planner</h1>
-      <button @click="$router.push({ name: 'addproject' })" class="btn btn-primary"><span class="material-icons">add</span>Create project</button>
+  <div class="flex justify-center lg:pt-[10vh]">
+    <div class="flex flex-col items-center w-full lg:w-3/4 xl:w-2/3 2xl:w-1/2 mx-5 mb-5 lg:mb-0">
+      <div class="hidden lg:flex w-full justify-between">
+        <h1 class="font-bold">Simple Project Planner</h1>
+        <button @click="$router.push({ name: 'addproject' })" class="btn btn-primary"><span class="material-icons">add</span>Add project</button>
+      </div>
+      <h1 class="text-xl md:text-3xl lg:hidden font-bold mt-10 self-start">Simple Project Planner</h1>
+      <div class="lg:hidden fixed bottom-5">
+        <button @click="$router.push({ name: 'addproject' })" class="btn btn-primary"><span class="material-icons">add</span>Add project</button>
+      </div>
+      <ProjectFilters @change="selectedFilter = $event" class="w-full" />
+      <Alert v-if="error" :message="error" type="error" class="w-full mt-5" />
+      <Alert v-else-if="!filteredProjects.length" message="No data available." class="w-full mt-5" />
+      <ProjectList :projects="filteredProjects" @delete="removeProject" class="w-full" />
     </div>
-    <ProjectFilters @change="selectedFilter = $event" class="w-1/2" />
-    <Alert v-if="error" :message="error" type="error" class="w-1/2 mt-5" />
-    <Alert v-else-if="!filteredProjects.length" message="No data available." class="w-1/2 mt-5" />
-    <ProjectList :projects="filteredProjects" @delete="removeProject" class="w-1/2" />
   </div>
+  <footer class="lg:absolute bottom-5 text-center w-full mb-5 lg:mb-0">Made with ❤️ by <a href="https://github.com/ItsMaxDev" target="_blank" class="text-primary">Max Kruiswegt</a></footer>
 </template>

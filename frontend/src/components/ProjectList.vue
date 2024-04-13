@@ -77,7 +77,7 @@ const updateStatus = async (project) => {
 </script>
 
 <template>
-  <div v-if="projects.length" class="grid max-h-[70vh] overflow-y-auto">
+  <div v-if="projects.length" class="grid lg:max-h-[70vh] lg:overflow-y-auto">
     <Project class="mt-1.5 mb-1.5" v-for="project in projects" :key="project.id" :project="project" @delete="removeProject(project)" @edit="editProject(project)" @updateStatus="updateStatus(project)" />
     <ConfirmModal v-if="showRemoveModal" question="Are you sure you want to remove this project?" @yes="confirmRemove" @no="cancelRemove" />
   </div>

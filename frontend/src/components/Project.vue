@@ -74,18 +74,19 @@ const remainingTime = computed(() => {
 
 <template>
     <div v-if="project">
-        <div class="p-10 bg-base-300 rounded-lg text-bl shadow-lg border-l-8" :class="{ 'border-gray-500': project.status === 'NOT_STARTED', 'border-orange-500': project.status === 'IN_PROGRESS', 'border-green-500': project.status === 'FINISHED' }">
-            <div class="flex justify-between items-center">
-                <span @click="showDescription = !showDescription" class="material-icons">{{ showDescription ? 'expand_more' : 'chevron_right' }}</span>
+        <div class="p-10 bg-base-300 rounded-lg text-bl shadow-lg border-t-8 md:border-t-0 md:border-l-8" :class="{ 'border-gray-500': project.status === 'NOT_STARTED', 'border-orange-500': project.status === 'IN_PROGRESS', 'border-green-500': project.status === 'FINISHED' }">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <span @click="showDescription = !showDescription" class="material-icons hidden md:flex">{{ showDescription ? 'expand_more' : 'chevron_right' }}</span>
                 <div class="flex flex-col items-center gap-2">
                     <p v-if="remainingTime" class="flex items-center gap-2" :class="remainingTime.color"><span class="material-symbols-outlined">schedule</span> {{ remainingTime.message }}</p>
-                    <h2>{{ project.name }}</h2>
+                    <h2 class="text-center whitespace-pre-wrap break-all">{{ project.name }}</h2>
                 </div>
                 <div class="flex items-center space-x-1">
                     <span @click="$emit('delete')" class="material-icons hover:text-red-500">delete</span>
                     <span @click="$emit('edit')" class="material-icons hover:text-orange-500">edit</span>
                     <span @click="$emit('updateStatus')" class="material-icons" :class="{ 'text-gray-500': project.status === 'NOT_STARTED', 'text-orange-500': project.status === 'IN_PROGRESS', 'text-green-500': project.status === 'FINISHED' }">{{ statusIcon }}</span>
                 </div>
+                <span class="material-icons md:hidden" @click="showDescription = !showDescription">{{ showDescription ? 'expand_more' : 'chevron_right' }}</span>
             </div>
             <div v-if="showDescription" class="mt-5 max-h-[25vh] overflow-y-auto">
                 <p class="whitespace-pre-wrap break-all">{{ project.description }}</p>

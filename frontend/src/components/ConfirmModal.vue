@@ -11,7 +11,7 @@ defineEmits(['yes', 'no'])
 
 <template>
     <teleport to="body">
-        <div class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+        <div class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 p-5">
             <div class="flex justify-center">
                 <div class="bg-white p-4 rounded shadow text-black w-fit">
                     <h2 class="text-lg font-bold mb-2">{{ question }}</h2>
