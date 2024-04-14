@@ -26,4 +26,4 @@ jobs:
         key: ${{ secrets.SSH_PRIVATE_KEY }}
         port: ${{ secrets.SSH_PORT }}
         script: |
-          cp -r dist/* /var/www/projects.maxkruiswegt.com/html/
+          cp -r frontend/dist/* /var/www/projects.maxkruiswegt.com/html/
