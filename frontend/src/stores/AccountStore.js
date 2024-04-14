@@ -9,7 +9,7 @@ export const useAccountStore = defineStore("account", () => {
     const isAdmin = computed(() => isLoggedIn.value && user.value.isAdmin);
 
     async function login(username, password) {
-        let response = await fetch('http://localhost/api/login', {
+        let response = await fetch('http://localhost:3000/api/login', {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -35,7 +35,7 @@ export const useAccountStore = defineStore("account", () => {
     }
 
     async function register(username, email, password) {
-        let response = await fetch('http://localhost/api/register', {
+        let response = await fetch('http://localhost:3000/api/register', {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -57,7 +57,7 @@ export const useAccountStore = defineStore("account", () => {
     async function load() {
         let storedToken = localStorage.getItem("token");
         if(storedToken) {
-            let response = await fetch('http://localhost/api/verifytoken', {
+            let response = await fetch('http://localhost:3000/api/verifytoken', {
                 headers: {
                     authorization: `Bearer ${storedToken}`
                 }
