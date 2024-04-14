@@ -43,10 +43,11 @@ class UserService {
 
     public function generateToken($user)
     {
-        $key = 'superverysecretkey';
+        $config = require __DIR__ . '/../config/jwtconfig.php';
+
         $payload = [
             'iat' => time(),
-            'exp' => time() + 3600,
+            'exp' => time() + $config['expiration'],
             'data' => [
                 'id' => $user->id,
                 'username' => $user->username,
@@ -55,15 +56,17 @@ class UserService {
             ]
         ];
 
-        return JWT::encode($payload, $key, 'HS256');
+        return JWT::encode($payload, $config['key'], $config['algorithm']);
     }
 
     public function verifyToken($token)
     {
+        $config = require __DIR__ . '/../config/jwtconfig.php';
+        
         $token = str_replace('Bearer ', '', $token);
 
         try {
-            $decoded = JWT::decode($token, new Key('superverysecretkey', 'HS256'));
+            $decoded = JWT::decode($token, new Key($config['key'], $config['algorithm']));
             return $decoded;
         } catch (Exception $e) {
             // Token verification failed
