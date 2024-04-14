@@ -9,4 +9,3 @@
 
 app/config/*.php
 app/vendor
-app/composer.lock
