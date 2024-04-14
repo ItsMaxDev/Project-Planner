@@ -19,11 +19,11 @@ jobs:
         npm run build
 
     - name: Copy Built Files to Web Server
-      uses: appleboy/ssh-action@master
+      uses: appleboy/scp-action@master
       with:
         host: ${{ secrets.HOST }}
         username: ${{ secrets.USERNAME }}
         key: ${{ secrets.SSH_PRIVATE_KEY }}
         port: ${{ secrets.SSH_PORT }}
-        script: |
-          cp -r frontend/dist/* /var/www/projects.maxkruiswegt.com/html/
+        source: "frontend/dist/*"
+        target: "/var/www/projects.maxkruiswegt.com/html/"
