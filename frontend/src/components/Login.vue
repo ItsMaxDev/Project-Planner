@@ -31,7 +31,7 @@ const register = async () => {
 
 <template>
     <div class="flex items-center justify-center h-screen">
-        <div class="flex flex-col">
+        <div class="w-full max-w-sm grid p-5">
             <Alert v-if="error" :message="error" type="error" class="mb-2 rounded-lg" />
             <form v-if="!signup" @submit.prevent="login" class="w-full">
                 <div class="bg-base-300 p-5 rounded-lg shadow-lg">
