@@ -7,9 +7,9 @@ const getProjects = () => {
     const projects = ref([]);
 
     const load = async () => {
-        let response = await fetch('http://localhost:3000/api/projects', {
+        let response = await fetch(`${window.location.protocol}//${window.location.hostname}:3000/api/projects`, {
             headers: {
-                authorization: 'Bearer ' + accountStore.token
+            authorization: 'Bearer ' + accountStore.token
             }
         })
         
