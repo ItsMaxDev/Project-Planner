@@ -10,7 +10,7 @@ class Repository {
 
     function __construct() {
         try {
-            require __DIR__ . '/../dbconfig.php';
+            require __DIR__ . '/../config/dbconfig.php';
 
             $this->connection = new PDO("$config[type]:host=$config[servername];dbname=$config[database]", $config['username'], $config['password']);
                 
