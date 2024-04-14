@@ -4,7 +4,7 @@ const accountStore = useAccountStore();
 
 const updateProject = () => {
     const update = async (project) => {
-        let response = await fetch('http://localhost/api/projects/' + project.id, {
+        let response = await fetch('http://localhost:3000/api/projects/' + project.id, {
             method: "PUT",
             headers: {
                 "Content-Type": "application/json",

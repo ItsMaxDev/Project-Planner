@@ -7,7 +7,7 @@ const getProject = () => {
     const project = ref(null);
 
     const get = async (id) => {
-        let response = await fetch('http://localhost/api/projects/' + id, {
+        let response = await fetch('http://localhost:3000/api/projects/' + id, {
             headers: {
                 authorization: 'Bearer ' + accountStore.token
             }
