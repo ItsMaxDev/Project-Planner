@@ -49,7 +49,7 @@ const removeProject = (project) => {
       </div>
       <h1 class="text-xl md:text-3xl lg:hidden font-bold mt-10 self-start">Simple Project Planner</h1>
       <div class="lg:hidden fixed bottom-5">
-        <button @click="$router.push({ name: 'addproject' })" class="btn btn-primary"><span class="material-icons">add</span>Add project</button>
+        <button @click="$router.push({ name: 'addproject' })" class="btn btn-primary opacity-95"><span class="material-icons">add</span>Add project</button>
       </div>
       <ProjectFilters @change="selectedFilter = $event" class="w-full" />
       <Alert v-if="error" :message="error" type="error" class="w-full mt-5" />
