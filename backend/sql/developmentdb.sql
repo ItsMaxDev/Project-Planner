@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: mysql
--- Generation Time: Mar 18, 2024 at 03:42 PM
+-- Generation Time: Apr 14, 2024 at 11:06 AM
 -- Server version: 11.3.2-MariaDB-1:11.3.2+maria~ubu2204
--- PHP Version: 8.2.16
+-- PHP Version: 8.2.17
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -30,7 +30,7 @@ SET time_zone = "+00:00";
 CREATE TABLE `projects` (
   `id` int(11) NOT NULL,
   `userid` int(11) NOT NULL,
-  `name` varchar(255) NOT NULL,
+  `name` varchar(32) NOT NULL,
   `description` text DEFAULT NULL,
   `status` enum('NOT_STARTED','IN_PROGRESS','FINISHED') NOT NULL DEFAULT 'NOT_STARTED',
   `creation_date` datetime NOT NULL DEFAULT current_timestamp(),
@@ -45,7 +45,7 @@ CREATE TABLE `projects` (
 
 CREATE TABLE `users` (
   `id` int(11) NOT NULL,
-  `username` varchar(255) NOT NULL,
+  `username` varchar(16) NOT NULL,
   `email` varchar(255) NOT NULL,
   `password` varchar(255) NOT NULL,
   `is_admin` tinyint(1) NOT NULL DEFAULT 0
