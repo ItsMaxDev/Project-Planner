@@ -1,0 +1,29 @@
+name: Frontend Deployment
+
+on:
+  push:
+    branches: [ main ]
+    
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v2
+
+    - name: Install Dependencies and Build Frontend
+      run: |
+        cd frontend
+        npm install
+        npm run build
+
+    - name: Copy Built Files to Web Server
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.HOST }}
+        username: ${{ secrets.USERNAME }}
+        key: ${{ secrets.SSH_PRIVATE_KEY }}
+        port: ${{ secrets.SSH_PORT }}
+        script: |
+          cp -r dist/* /var/www/projects.maxkruiswegt.com/html/
