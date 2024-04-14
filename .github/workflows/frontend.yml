@@ -27,3 +27,4 @@ jobs:
         port: ${{ secrets.SSH_PORT }}
         source: "frontend/dist/*"
         target: "/var/www/projects.maxkruiswegt.com/html/"
+        strip_components: 2
