@@ -7,7 +7,7 @@ const getProject = () => {
     const project = ref(null);
 
     const get = async (id) => {
-        let response = await fetch(`${window.location.protocol}//${window.location.hostname}:3000/api/projects/` + id, {
+        let response = await fetch(`${window.location.protocol}//${window.location.hostname}/api/projects/` + id, {
             headers: {
             authorization: 'Bearer ' + accountStore.token
             }

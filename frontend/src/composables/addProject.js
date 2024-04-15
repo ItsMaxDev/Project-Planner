@@ -4,7 +4,7 @@ const accountStore = useAccountStore();
 
 const addProject = () => {
     const add = async (project) => {
-        let response = await fetch(`${window.location.protocol}//${window.location.hostname}:3000/api/projects`, {
+        let response = await fetch(`${window.location.protocol}//${window.location.hostname}/api/projects`, {
             method: "POST",
             headers: {
             "Content-Type": "application/json",
