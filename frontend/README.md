@@ -1,9 +1,8 @@
-# Vue 3 frontend
+# 🎨 Project Planner - Frontend
 
-This is the frontend part of my Web Development 2 project.
+Welcome to the frontend of Project Planner, a dynamic project management web application! This part of the application is built using Vue 3, Vite and Pinia, and styled with Tailwind CSS. The frontend communicates with the backend via API calls, which are processed and interacted with the database by the backend.
 <br>
 <br>
-
 ## 🛠️ Project Setup
 
 ⚠️ Before you start, make sure you have [Node.js](https://nodejs.org/) installed on your machine. Node.js is required to run `npm` commands. 
@@ -14,18 +13,20 @@ First, open a terminal in the project directory. Then, install the project depen
 npm install
 ```
 
-This will install all the necessary packages for the project, including Vue, Vite, and json-server.
+This will install all the necessary packages for the project, including Vue, Vite, and Pinia.
 <br>
 <br>
 ## 🏃‍♀️ Running the Application
 
-To start the application in development mode with hot-reloading and a mock backend server, run:
+To start the application in development mode with hot-reloading, run:
 
 ```
 npm run dev
 ```
 
-This will start both the Vue application and a `json-server` instance. The Vue application will be available at `http://localhost:5173`, and the `json-server` backend will be available at `http://localhost:3000`.
+This will start the Vue application. The Vue application will be available at [localhost:5173](http://localhost:5173).
+
+⚠️ Note: The backend server needs to be running separately for the application to work properly. Please refer to the backend README for instructions on how to set up and run the backend.
 <br>
 <br>
 ## 🏗️ Building the Application
@@ -39,17 +40,6 @@ npm run build
 This will create a `dist` directory with the compiled and minified assets, ready for deployment.
 <br>
 <br>
-## 🕵️‍♀️ Previewing the Production Build
-
-To serve the production build of the application over a local server, run:
-
-```bash
-npm run preview
-```
-
-This allows you to preview the production build before deploying it.
-<br>
-<br>
 ## 📂 Application Structure
 
 The application is structured as follows:
@@ -59,9 +49,5 @@ The application is structured as follows:
 - `src/views/`: Contains the Vue components for the different views in the application.
 - `src/components/`: Contains reusable Vue components.
 - `src/composables/`: Contains Vue composable functions for interacting with the backend server.
-- `data/db.json`: The mock database file for json-server.
-<br>
-
-## 💻 Recommended IDE Setup
-
-For the best development experience, I recommend using [VSCode](https://code.visualstudio.com/) with the [Volar](https://marketplace.visualstudio.com/items?itemName=johnsoncodehk.volar) extension (and disable Vetur).
+- `src/router/index.js`: Contains the Vue Router configuration.
+- `src/stores/`: Contains the Pinia stores used for state management in the application.
