@@ -28,7 +28,7 @@ To get started with the frontend:
 3. Start the development server with `npm run dev`
 4. To build the application for production, run `npm run build`
 
-For more detailed instructions, please refer to the frontend README.
+For more detailed instructions, please refer to the [frontend README](https://github.com/ItsMaxDev/Webdev-2-Project/blob/main/frontend/README.md).
 <br>
 <br>
 ## ⚙️ Backend
@@ -39,7 +39,7 @@ To get started with the backend:
 1. Navigate to the `backend/` directory
 2. Run `docker compose up` to start the Docker containers
 
-For more detailed instructions, please refer to the backend README.
+For more detailed instructions, please refer to the [backend README](https://github.com/ItsMaxDev/Webdev-2-Project/blob/main/backend/README.md).
 <br>
 <br>
 ## 🚀 Deployment
