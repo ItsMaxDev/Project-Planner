@@ -3,9 +3,12 @@ name: Frontend Deployment
 on:
   push:
     branches: [ main ]
+    paths:
+      - frontend/**
     
 jobs:
-  build:
+  deploy:
+    name: Deploy Frontend
     runs-on: ubuntu-latest
     
     steps:

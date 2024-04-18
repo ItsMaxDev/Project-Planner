@@ -3,10 +3,12 @@ name: Backend Deployment
 on:
   push:
     branches: [ main ]
+    paths:
+      - backend/**
 
 jobs:
   deploy:
-    name: CI/CD-Deploy-Action
+    name: Deploy Backend
     runs-on: ubuntu-latest
     
     steps:
