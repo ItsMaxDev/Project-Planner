@@ -24,7 +24,7 @@ jobs:
         port: ${{ secrets.PORT }}
         script: |
           cd ~/projects/Webdev-2-Project/backend
-          docker-compose down
+          docker compose down
           git fetch origin main
           git merge --ff-only origin/main
           docker compose build
