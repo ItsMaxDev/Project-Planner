@@ -1,0 +1,33 @@
+name: Backend Deployment
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  deploy:
+    name: CI/CD-Deploy-Action
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v4
+      with:
+        repository: Webdev-2-Project
+        path: backend
+
+    - name: Rebuid and Deploy Docker Images
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.HOST }}
+        username: ${{ secrets.USERNAME }}
+        key: ${{ secrets.SSH_PRIVATE_KEY }}
+        port: ${{ secrets.PORT }}
+        script: |
+          cd /projects/Webdev-2-Project/backend
+          docker-compose down
+          git fetch origin main
+          git merge --ff-only origin/main
+          docker compose build
+          docker compose run php composer install
+          docker compose up -d
